@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shelf</title>
+</head>
+<body>
+
+<h1>Shelf View</h1>
+<ul id="books"></ul>
+
+<script>
+const API_URL = "https://sheetdb.io/api/v1/your_api_id";
+
+const params = new URLSearchParams(window.location.search);
+const shelfId = params.get("shelf");
+
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+
+    const shelfBooks = data.filter(b => b.Shelf_ID == shelfId);
+
+    shelfBooks.forEach(b => {
+      const li = document.createElement("li");
+      li.innerText = b.Title + " (" + b.Position + ")";
+      document.getElementById("books").appendChild(li);
+    });
+
+  });
+</script>
+
+</body>
+</html>

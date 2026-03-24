@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Details</title>
+</head>
+<body>
+
+<h1 id="title"></h1>
+<p id="author"></p>
+<p id="genre"></p>
+<p id="shelf"></p>
+
+<h3>Other books by same author:</h3>
+<ul id="sameAuthor"></ul>
+
+<h3>Same genre books:</h3>
+<ul id="sameGenre"></ul>
+
+<script>
+const API_URL = "https://sheetdb.io/api/v1/your_api_id";
+
+const params = new URLSearchParams(window.location.search);
+const bookId = params.get("id");
+
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+
+    const book = data.find(b => b.Book_ID == bookId);
+
+    document.getElementById("title").innerText = book.Title;
+    document.getElementById("author").innerText = "Author: " + book.Author;
+    document.getElementById("genre").innerText = "Genre: " + book.Genre;
+    document.getElementById("shelf").innerText = "Shelf: " + book.Shelf_ID + " (" + book.Position + ")";
+
+    // Same Author
+    const sameAuthor = data.filter(b => b.Author === book.Author && b.Book_ID != bookId);
+    sameAuthor.forEach(b => {
+      const li = document.createElement("li");
+      li.innerText = b.Title;
+      document.getElementById("sameAuthor").appendChild(li);
+    });
+
+    // Same Genre
+    const sameGenre = data.filter(b => b.Genre === book.Genre && b.Book_ID != bookId);
+    sameGenre.forEach(b => {
+      const li = document.createElement("li");
+      li.innerText = b.Title;
+      document.getElementById("sameGenre").appendChild(li);
+    });
+
+  });
+</script>
+
+</body>
+</html>
