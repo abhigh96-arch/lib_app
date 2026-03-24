@@ -17,7 +17,7 @@
 <ul id="sameGenre"></ul>
 
 <script>
-const API_URL = "https://sheetdb.io/api/v1/your_api_id";
+const API_URL = "https://sheetdb.io/api/v1/0um4r5c82pqk6";
 
 const params = new URLSearchParams(window.location.search);
 const bookId = params.get("id");
